@@ -4,6 +4,7 @@ import hashing.Util;
 import hashing.key.Complex;
 import hashing.key.Vector;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
@@ -20,15 +21,14 @@ public class Main {
     private static void runTestNumber(int number) {
         System.out.printf("[ℹ] Test number %d\n", number);
         switch (number) {
-            case 1: test1(); break;
-            case 2: test2(); break;
-            case 3: test3(); break;
-            case 4: test4(); break;
-            case 5: test5(); break;
-            case 6: test6(); break;
-            case 7: test7(); break;
-            default:
-                System.out.println("KILL Me plz");
+            case 1 -> test1();
+            case 2 -> test2();
+            case 3 -> test3();
+            case 4 -> test4();
+            case 5 -> test5();
+            case 6 -> test6();
+            case 7 -> test7();
+            default -> System.out.println("KILL Me plz");
         }
     }
 

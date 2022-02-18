@@ -87,4 +87,28 @@ public class Util {
 
         return result;
     }
+
+    /**
+     * Converts s to a complex number
+     * @param s if not convertable throws RuntimeException
+     */
+    public static Complex parseComplex(String s) {
+        var str = s.substring(0, s.length() - 1);
+        int idx = 0;
+        boolean isNegative = false;
+        // find the index idx where to split
+        for (int i = str.length() - 1; i >= 0; i--) {
+            if (str.charAt(i) == '-') {
+                idx = i; isNegative = true;
+                break;
+            } else if (str.charAt(i) == '+') {
+                idx = i;
+                break;
+            }
+        }
+        var real = Integer.parseInt(str.substring(0, idx));
+        var img = Integer.parseInt(str.substring(idx + 1)) * (isNegative ? -1 : 1);
+
+        return new Complex(real, img);
+    }
 }

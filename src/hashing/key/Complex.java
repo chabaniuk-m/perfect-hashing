@@ -54,12 +54,10 @@ public class Complex {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(real);
-        if (img != 0) {
-            if (img > 0) {
-                sb.append('+');
-            }
-            sb.append("").append(img).append('i');
+        if (img >= 0) {
+            sb.append('+');
         }
+        sb.append(img).append('i');
 
         return sb.toString();
     }
