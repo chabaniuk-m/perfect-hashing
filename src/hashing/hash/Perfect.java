@@ -26,22 +26,6 @@ public class Perfect {
 
     private void checkUnique(List<Vector> keys) {
 
-        boolean isUnique = true;
-
-        /*int n = keys.size();
-
-        var uniques = new ArrayList<Vector>(n);
-
-        for (int i = 0; i < n; i++) {
-            var key = keys.get(i);
-            for (int j = 0; j < uniques.size(); j++) {
-                var uniq = uniques.get(j);
-                if (key.size() == uniq.size()) {
-                    System.out.println();
-                }
-            }
-        }*/
-
         var set = Set.of(keys.toArray(new Vector[]{new Vector(new ArrayList<>())}));
 
         if (set.size() < keys.size()) {
@@ -141,6 +125,31 @@ public class Perfect {
         return lookUpTable;
     }
 
+    /**
+     * Looking if key is present in look up table
+     * @throws RuntimeException if key is absent
+     * @return string with 2 indexes: row & column of key,
+     * example: [18][0]
+     */
+    public String find(Vector key) {
+        int firstLvlHash = primary.calcHash(key);
+        var row = lookUpTable.table.get(firstLvlHash);
+        if (row == null || row.hashTable.size() == 0);
+        else if (row.hashTable.size() == 1) {
+            if (row.hashTable.get(0).equals(key)) {
+
+                return "[" + firstLvlHash + "]" + "[0]";
+            }
+        } else {
+            int secondLvlHash = row.hashFunction.calcHash(key);
+            if (row.hashTable.get(secondLvlHash).equals(key)) {
+
+                return "[" + firstLvlHash + "]" + "[" + secondLvlHash + "]";
+            }
+        }
+        throw new RuntimeException("Look up table does not contain such a key");
+    }
+
     public class Table {
 
         /**
@@ -175,14 +184,12 @@ public class Perfect {
                 for (int i = 0; i < hashTable.size(); i++) {
                     var key = hashTable.get(i);
                     if (key != null) {
-                        sb.append("index(");
+                        sb.append("\n    ▢ _");
                         sb.append(i);
-                        sb.append(") = ");
+                        sb.append("_ = ");
                         sb.append(key);
                     }
                 }
-                sb.append('\n');
-                sb.append("------------------------------------------------------------------------\n");
 
                 return sb.toString();
             }

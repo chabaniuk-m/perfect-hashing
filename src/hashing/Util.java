@@ -1,12 +1,17 @@
 package hashing;
 
+import hashing.hash.Perfect;
 import hashing.key.Complex;
 import hashing.key.Vector;
 import hashing.hash.Universal;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Stream;
 
 /**
  * class for static utility functions
@@ -15,8 +20,42 @@ import java.util.Random;
 public class Util {
     public final static Random random = new Random();
     // for generating random data
-    public final static int COMPLEX_BOUND = 2;
+    public final static int COMPLEX_BOUND = 100;
     public final static int DIMENSION_BOUND = 5;
+
+    public static void interactiveTest(Perfect hashFunc) {
+
+        System.out.println("\n\t\t\t*** Interactive test ***\n");
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        System.out.print("Enter key to search: ");
+        try {
+            String input = reader.readLine();
+            while (!input.equals("\\end")) {
+                Vector key = null;
+                try {
+                    key = Util.parseVector(input);
+                } catch (Exception e) {
+                    System.out.println("Input \"" + input + "\" is incorrect!\n" +
+                            "Try something like these: (0+0i) or (-13-16i;4-0i)");
+                    System.out.print("Enter key to search: ");
+                    input = reader.readLine();
+                    continue;
+                }
+                String location = null;
+                try {
+                    location = hashFunc.find(key);
+                    System.out.println("Hash table contains this key in location: " + location);
+                } catch (Exception e) {
+                    System.out.println("Hash table does not contain key \"" + input + "\"");
+                }
+                System.out.print("Enter key to search: ");
+                input = reader.readLine();
+                continue;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     /**
      * Generates random complex number
@@ -110,5 +149,14 @@ public class Util {
         var img = Integer.parseInt(str.substring(idx + 1)) * (isNegative ? -1 : 1);
 
         return new Complex(real, img);
+    }
+
+    /**
+     * Converts string s to a vector of complex numbers
+     * @param s examples: '()', '(0+0i;-5-14i;7+3i)'
+     * @throws RuntimeException s is not parsable
+     */
+    public static Vector parseVector(String s) {
+        return new Vector(Stream.of(s.substring(1, s.length() - 1).split(";")).map(Util::parseComplex).toList());
     }
 }

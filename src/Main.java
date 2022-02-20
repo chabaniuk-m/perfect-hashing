@@ -24,6 +24,8 @@ public class Main {
         var table = h.buildFor(keys);
 
         System.out.println(table);
+
+        Util.interactiveTest(h);
     }
 
     private static List<Vector> runTestNumber(int number) {
@@ -31,10 +33,10 @@ public class Main {
         return switch (number) {
             case 1 -> Util.randData(5, 1);
             case 2 -> Util.randData(20, 1);
-            case 3 -> Util.randData(1000, 1);
+            case 3 -> Util.randData(100, 1);
             case 4 -> Util.randData(5);
             case 5 -> Util.randData(20);
-            case 6 -> Util.randData(1000);
+            case 6 -> Util.randData(100);
             case 7 -> test7();
             default -> null;
         };
@@ -53,11 +55,11 @@ public class Main {
         System.out.println("\n         }\n");
     }
 
-    // TODO: 2/14/2022 test from file
+    // read array of single complex numbers from file
     private static List<Vector> test7() {
         List<Vector> keys = null;
         try {
-            var lines = Files.readAllLines(Paths.get("file.txt"));
+            var lines = Files.readAllLines(Paths.get("complex.txt"));
             keys = new ArrayList<>(lines.size());
             for (var line : lines) {
                 keys.add(new Vector(List.of(Util.parseComplex(line))));
@@ -65,20 +67,7 @@ public class Main {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         return keys;
-    }
-
-    private static void testVectors(int n, int dimension) {
-        for (int i = 0; i < n; i++) {
-            System.out.println(Util.randVector(dimension));
-        }
-    }
-
-    private static void testHashingForComplex(int m) {
-        Universal f = Util.randUHFunction(m);
-        for (int i = 0; i < m; i++) {
-            var c = Util.randComplex(100);
-            System.out.println("Complex: " + c + "  \thash code: " + f.calcHash(c));
-        }
     }
 }
