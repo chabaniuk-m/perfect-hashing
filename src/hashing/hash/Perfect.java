@@ -19,7 +19,7 @@ public class Perfect {
     // MAIN FUNCTION
     public Table buildFor(List<Vector> keys) {
 
-        checkUnique(keys);
+        // checkUnique(keys);
 
         return secondStep(firstStep(keys));
     }
@@ -79,6 +79,37 @@ public class Perfect {
             int hashIndex = newHashFunc.calcHash(key);
             // if collision
             if (rowHash.get(hashIndex) != null) {
+
+                // check for identical keys
+                if (new HashSet<Vector>(bucket).size() < nj) {
+                    var uniques = new ArrayList<Vector>(nj);
+                    var copies = new ArrayList<Vector>(nj);
+
+                    for (var k : bucket) {
+                        if (uniques.contains(k)) {
+                            copies.add(k);
+                        } else {
+                            uniques.add(k);
+                        }
+                    }
+
+                    int nu = uniques.size();
+                    for (int i = 0; i < nu; i++) {
+                        rowHash.set(i, uniques.get(i));
+                    }
+                    for (int i = 0; i < copies.size(); i++) {
+                        rowHash.set(nu + i, copies.get(i));
+                    }
+
+                    // save new row to lookUpTable
+                    lookUpTable.table.add(new Table.Row(
+                            rowHash,
+                            newHashFunc
+                    ));
+
+                    return newHashFunc;
+                }
+
                 // choose another universal hash function
                 return solveCollision(bucket, newHashFunc);
             } else {

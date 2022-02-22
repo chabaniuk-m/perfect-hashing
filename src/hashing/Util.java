@@ -20,7 +20,7 @@ import java.util.stream.Stream;
 public class Util {
     public final static Random random = new Random();
     // for generating random data
-    public final static int COMPLEX_BOUND = 100;
+    public final static int COMPLEX_BOUND = 10;
     public final static int DIMENSION_BOUND = 5;
 
     public static void interactiveTest(Perfect hashFunc) {
