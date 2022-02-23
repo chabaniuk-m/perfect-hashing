@@ -177,6 +177,15 @@ public class Perfect {
 
                 return "[" + firstLvlHash + "]" + "[" + secondLvlHash + "]";
             }
+            /*
+            second hash-function doesn't work
+            then check for key duplicates hashing
+             */
+            for (int i = 0; i < row.hashTable.size(); i++) {
+                if (row.hashTable.get(i).equals(key)) {
+                    return "[" + firstLvlHash + "]" + "[" + i + "]";
+                }
+            }
         }
         throw new RuntimeException("Look up table does not contain such a key");
     }

@@ -17,7 +17,7 @@ public class Main {
         System.out.println("\t\t\t\t\t\t\t***** PERFECT HASH FUNCTION ********");
         System.out.println("\t\t\t\t\t\t\t************************************\n");
 
-        var keys = runTestNumber(3);
+        var keys = runTestNumber(7);
 
         showKeys(keys);
         var h = new Perfect();
